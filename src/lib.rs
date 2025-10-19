@@ -1,5 +1,7 @@
 pub mod parser;
 pub mod token;
+pub mod scanner;
+pub mod errors;
 
 #[cfg(test)]
 mod tests {
