@@ -97,4 +97,22 @@ impl<'a> Scanner<'a> {
         }
         return self.source.chars().nth(self.current).unwrap();
     }
+    
+    fn string(&mut self){
+        while self.peek() != '"' && !self.is_at_end(){
+            if self.peek() == '\n' {self.line +=1 }
+            self.advance();
+        }
+        
+        if self.is_at_end(){
+            ParserError::error(self.line, ParserError::UnterminatedString);
+            return
+        }
+        
+        self.advance();
+        
+        let val = self.source[self.start+1..self.current-1].to_owned();
+
+        self.add_token(TokenType::String, Literal::String(val));
+    }
 }
